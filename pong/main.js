@@ -40,6 +40,13 @@
         move: function(){
             this.x += (this.speed_x * this.direction);
             this.y += (this.speed_y);
+            console.log(this.board.height);
+
+            if ((this.y - this.radius) < 0) {
+                this.speed_y = -this.speed_y;
+            }else if ((this.y + this.radius) > this.board.height) {
+                this.speed_y = -this.speed_y;
+            }
         },
         get width(){
             return this.radius * 2;
@@ -48,7 +55,6 @@
             return this.radius *2;
         },
         collision: function (bar) {
-            console.log(3);
             //reacciona a la colision con una barra que recibe como parametro
             var relative_intersect_y = ( bar.y + (bar.height / 2) ) - this.y;
 
