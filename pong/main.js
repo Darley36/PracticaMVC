@@ -200,11 +200,19 @@
 
     self.Bar.prototype = {
         down: function () {
-            this.y += this.speed;
-            console.log(this.y);
+            if (this.y > 340) {
+                this.y = this.y;
+            }else{
+                this.y += this.speed;
+            }
+            
         },
         up: function(){
-            this.y -= this.speed;
+            if (this.y < -40) {
+                this.y = this.y;
+            }else{
+                this.y -= this.speed;
+            }
         },
         toString: function(){
             return "x :"+ this.x +" y: "+ this.y;
