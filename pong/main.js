@@ -32,12 +32,24 @@
         this.bounce_angle = 0;
         this.max_bounce_angle = Math.PI / 12;
         this.speed = 3;
+        
 
         board.ball = this;
         this.kind = "circle"
     }
     self.Ball.prototype = {
         move: function(){
+            do {
+                if (RadioButton() == "2") {
+                    this.speed_x = 6;
+                }else if (RadioButton() == "3") {
+                    this.speed_x = 15;
+                }else{
+                    this.speed_x = 5;
+                }
+            } while (false);
+            //this.speed = this.speed_x;
+
             this.x += (this.speed_x * this.direction);
             this.y += (this.speed_y);
             console.log(this.board.height);
@@ -46,6 +58,20 @@
                 this.speed_y = -this.speed_y;
             }else if ((this.y + this.radius) > this.board.height) {
                 this.speed_y = -this.speed_y;
+            }
+
+            if ((this.x - this.radius) < 0) {
+                this.speed_x = 0;
+                this.speed_y = 0;
+                window.alert("El ganador es el jugador dos");
+                window.location.href = window.location.href;
+                board.playing = false;
+            }else if ((this.x + this.radius) > this.board.width) {
+                this.speed_x = 0;
+                this.speed_y = 0;
+                window.alert("El ganador es el jugador uno");
+                window.location.href = window.location.href;
+                board.playing = false;
             }
         },
         get width(){
@@ -65,8 +91,14 @@
             this.speed_y = this.speed * -Math.sin(this.bounce_angle);
             this.speed_x = this.speed * Math.cos(this.bounce_angle);
 
-            if (this.x > (this.board.width / 2)) this.direction = -1;
-            else this.direction = 1;
+            if (this.x > (this.board.width / 2)){           
+                this.direction = -1;
+                this.speed += 1;
+            }
+            else {
+                this.direction = 1;
+                this.speed += 1;
+            }
         }
     }
 })();
@@ -163,12 +195,13 @@
         //agregamos al vector bars, todo este elemento
         this.board.bars.push(this);
         this.kind = "rectangle";
-        this.speed = 10;
+        this.speed = 20;
     }
 
     self.Bar.prototype = {
         down: function () {
             this.y += this.speed;
+            console.log(this.y);
         },
         up: function(){
             this.y -= this.speed;
@@ -180,7 +213,7 @@
 })();
 
 var board = new Board(800,400);
-var bar = new Bar(20,100,40,100,board);
+var bar = new Bar(35,100,40,100,board);
 var bar_2 = new Bar(735,100,40,100,board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas,board);
@@ -205,7 +238,7 @@ document.addEventListener("keydown",function(ev){
         board.playing = !board.playing;
     }
 
-    console.log(bar.toString());
+    //console.log(bar.toString());
 })
 
 board_view.draw();
@@ -214,6 +247,17 @@ window.requestAnimationFrame(controller);
 /*setTimeout(function(){
     ball.direction = -1;
 },4000);*/
+
+function RadioButton() {
+    var radios = document.getElementsByName('nivel');
+    for (var i = 0, length = radios.length; i < length; i++)
+        {
+            if (radios[i].checked)
+            {
+                 return radios[i].value.toString();
+            }
+        }
+}
 
 function controller(){
     board_view.play();
