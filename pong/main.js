@@ -1,5 +1,7 @@
 //funcion anonima que se llamara asi misma
 //self hace refencia a windows que es un scope global que podemos acceder a el desde cualquier parte de la misma ventana
+
+
 (function(){
     self.Board = function(width,height){
         this.width = width;
@@ -10,6 +12,7 @@
         this.ball = null;
         this.playing = false;
     }
+
     //colocar los metodos de la misma clase
     self.Board.prototype = {
         get elements(){
